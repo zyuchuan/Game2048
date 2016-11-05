@@ -10,12 +10,12 @@ import UIKit
 
 class GameBoardView: UIView {
     
-    private var cellViews: [String : CellView] = [:]
-    private var mergedCells: [CellView] = []
+    fileprivate var cellViews: [String : CellView] = [:]
+    fileprivate var mergedCells: [CellView] = []
     
     var delegate: GameBoardViewDelegate?
     
-    func cellViewAt(position position: Position) -> CellView? {
+    func cellViewAt(position: Position) -> CellView? {
         return cellViews[position.toString()]
     }
     
@@ -32,7 +32,7 @@ class GameBoardView: UIView {
         mergedCells.removeAll()
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
         guard delegate != nil else { return }
         
@@ -46,14 +46,14 @@ class GameBoardView: UIView {
         var cellY: CGFloat = rect.origin.y + cellSpaceY
         
         let context = UIGraphicsGetCurrentContext()
-        CGContextSetFillColorWithColor(context, delegate!.getGameBoardBackgroundColor().CGColor)
-        CGContextFillRect(context, rect)
+        context?.setFillColor(delegate!.getGameBoardBackgroundColor().cgColor)
+        context?.fill(rect)
         
-        CGContextSetFillColorWithColor(context, delegate!.getCellBackgroundColor().CGColor)
+        context?.setFillColor(delegate!.getCellBackgroundColor().cgColor)
         for _ in 0..<numRows {
             for _ in 0..<numCols {
                 let cellRect = CGRect(x: cellX, y: cellY, width: cellWidth, height: cellHeight)
-                CGContextFillRect(context, cellRect)
+                context?.fill(cellRect)
                 cellX += cellWidth + cellSpaceX
             }
             
@@ -62,80 +62,80 @@ class GameBoardView: UIView {
         }
     }
     
-    func createNewCellViewForCell(cell: Cell<Int>, atPosition position: Position) {
+    func createNewCellViewForCell(_ cell: Cell<Int>, atPosition position: Position) {
         let frame = getRectFor(row: position.x, col: position.y)
-        let xib = NSBundle.mainBundle().loadNibNamed("CellView", owner: nil, options: nil)
-        let cellView = xib.first as! CellView
+        let xib = Bundle.main.loadNibNamed("CellView", owner: nil, options: nil)
+        let cellView = xib?.first as! CellView
         cellView.frame = frame
         cellView.backgroundColor = cell.backgroundColor
         cellView.textLabel.textColor = cell.foregroundColor
         cellView.textLabel.text = String(cell.value)
-        cellView.textLabel.font = UIFont.boldSystemFontOfSize(frame.height / 2.0)
-        cellView.transform = CGAffineTransformScale(cellView.transform, 0.1, 0.1)
+        cellView.textLabel.font = UIFont.boldSystemFont(ofSize: frame.height / 2.0)
+        cellView.transform = cellView.transform.scaledBy(x: 0.1, y: 0.1)
         
-        UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.85, initialSpringVelocity: 10, options: .CurveEaseIn,
+        UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.85, initialSpringVelocity: 10, options: .curveEaseIn,
                                    animations: {
-                                    cellView.transform = CGAffineTransformIdentity
+                                    cellView.transform = CGAffineTransform.identity
             }, completion: nil)
         
         self.addSubview(cellView)
         cellViews[position.toString()] = cellView
     }
     
-    func updateCellViewForCell(cell: Cell<Int>, atPosition position: Position) {
+    func updateCellViewForCell(_ cell: Cell<Int>, atPosition position: Position) {
         if let cellView = cellViewAt(position: position) {
             cellView.backgroundColor = cell.backgroundColor
             cellView.textLabel.textColor = cell.foregroundColor
             cellView.textLabel.text = String(cell.value)
-            cellView.transform = CGAffineTransformScale(cellView.transform, 1.2, 1.2)
+            cellView.transform = cellView.transform.scaledBy(x: 1.2, y: 1.2)
             
-            UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.85, initialSpringVelocity: 30, options: .CurveEaseIn,
+            UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.85, initialSpringVelocity: 30, options: .curveEaseIn,
                                        animations: {
-                                        cellView.transform = CGAffineTransformIdentity
+                                        cellView.transform = CGAffineTransform.identity
                 }, completion: nil)
         }
     }
     
-    func beginSwipe(direction: SwipeDirection) {
+    func beginSwipe(_ direction: SwipeDirection) {
         UIView.beginAnimations("MoveCellAnimation", context: nil)
         UIView.setAnimationDelay(0.0)
         UIView.setAnimationDuration(0.3)
-        UIView.setAnimationCurve(UIViewAnimationCurve.EaseIn)
+        UIView.setAnimationCurve(UIViewAnimationCurve.easeIn)
         UIView.setAnimationDelegate(self)
-        UIView.setAnimationDidStopSelector(#selector(GameBoardView.cellDidMove(_:)))
+        UIView.setAnimationDidStop(#selector(GameBoardView.cellDidMove(_:)))
     }
     
-    func endSwipe(direction: SwipeDirection) {
+    func endSwipe(_ direction: SwipeDirection) {
         UIView.commitAnimations()
     }
     
-    func moveCellViewForCell(cell: Cell<Int>, from: Position, to: Position) {
+    func moveCellViewForCell(_ cell: Cell<Int>, from: Position, to: Position) {
         if let cellView = cellViewAt(position: from) {
-            self.bringSubviewToFront(cellView)
+            self.bringSubview(toFront: cellView)
             let newFrame = getRectFor(row: to.x, col: to.y)
             cellView.frame.origin = newFrame.origin
             
-            if cell.status == .Merged {
+            if cell.status == .merged {
                 if let mergedCellView = cellViews[to.toString()] {
                     mergedCells.append(mergedCellView)
                 }
             }
             
             cellViews[to.toString()] = cellView
-            cellViews.removeValueForKey(from.toString())
+            cellViews.removeValue(forKey: from.toString())
         }
     }
     
-    @objc private func cellDidMove(finished: Bool) {
+    @objc fileprivate func cellDidMove(_ finished: Bool) {
         for cellView in mergedCells {
             cellView.removeFromSuperview()
         }
-        mergedCells.removeAll(keepCapacity: false)
+        mergedCells.removeAll(keepingCapacity: false)
         
         delegate?.onGameBoardViewDidSwipe()
     }
     
-    private func getRectFor(row row: Int, col: Int) -> CGRect {
+    fileprivate func getRectFor(row: Int, col: Int) -> CGRect {
         let numRows = delegate!.getNumberOfRows()
         let numCols = delegate!.getNumberOfColumns()
         let cellSpaceX = CGFloat(delegate!.getCellSpaceX())

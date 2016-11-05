@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private var gameController: GameBoardViewController!
+    fileprivate var gameController: GameBoardViewController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,12 +25,12 @@ class ViewController: UIViewController {
         self.view.addSubview(gameController.view)
         
         let newGameButtonFrame = CGRect(x: 10, y: 50 + gameBoardViewFrame.height, width: width, height: 40)
-        let newGameButton = UIButton(type: UIButtonType.RoundedRect)
+        let newGameButton = UIButton(type: UIButtonType.roundedRect)
         newGameButton.frame = newGameButtonFrame
-        newGameButton.setTitle("New Game", forState: UIControlState.Normal)
-        newGameButton.backgroundColor = UIColor.blueColor()
-        newGameButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        newGameButton.addTarget(self, action: #selector(ViewController.newGame), forControlEvents: UIControlEvents.TouchUpInside)
+        newGameButton.setTitle("New Game", for: UIControlState())
+        newGameButton.backgroundColor = UIColor.blue
+        newGameButton.setTitleColor(UIColor.white, for: UIControlState())
+        newGameButton.addTarget(self, action: #selector(ViewController.newGame), for: UIControlEvents.touchUpInside)
         self.view.addSubview(newGameButton)
     }
     

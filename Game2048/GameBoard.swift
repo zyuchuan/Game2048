@@ -10,8 +10,8 @@ import UIKit
 
 struct GameBoard {
     // MARK: Private properties
-    private var cells: [Cell<Int>?]
-    private var mergedCells: [Cell<Int>?]
+    fileprivate var cells: [Cell<Int>?]
+    fileprivate var mergedCells: [Cell<Int>?]
     
     // MARK: Public properties
     let numRows: Int
@@ -25,8 +25,8 @@ struct GameBoard {
         self.numCols = cols
         
         let count = numRows * numCols
-        cells = Array(count: count, repeatedValue: nil)
-        mergedCells = Array(count: count, repeatedValue: nil)
+        cells = Array(repeating: nil, count: count)
+        mergedCells = Array(repeating: nil, count: count)
     }
     
     // MARK: Locate cells
@@ -50,39 +50,39 @@ struct GameBoard {
         }
     }
     
-    func cellAt(row row: Int, col: Int) -> Cell<Int>? {
+    func cellAt(row: Int, col: Int) -> Cell<Int>? {
         return self[row, col]
     }
     
-    func cellAtPosition(postion: Position) -> Cell<Int>? {
+    func cellAtPosition(_ postion: Position) -> Cell<Int>? {
         return self[postion]
     }
     
-    private func mergedCellAt(row row: Int, col: Int) -> Cell<Int>? {
+    fileprivate func mergedCellAt(row: Int, col: Int) -> Cell<Int>? {
         return mergedCells[(row * numCols) + col]
     }
     
-    private func mergedCellAtPosition(position: Position) -> Cell<Int>? {
+    fileprivate func mergedCellAtPosition(_ position: Position) -> Cell<Int>? {
         return mergedCellAt(row: position.x, col: position.y)
     }
     
-    private mutating func setMergedCell(cell: Cell<Int>?, at position: Position) {
+    fileprivate mutating func setMergedCell(_ cell: Cell<Int>?, at position: Position) {
         mergedCells[position.x * numCols + position.y] = cell
     }
     
     mutating func clean() {
         let count = numRows * numCols
-        cells = Array(count: count, repeatedValue: nil)
-        mergedCells = Array(count: count, repeatedValue: nil)
+        cells = Array(repeating: nil, count: count)
+        mergedCells = Array(repeating: nil, count: count)
     }
     
     // MARK: Finger swipte handlers
     
     mutating func swipeDown() {
         prepareForSwipe()
-        delegate?.onGameBoardBeginSwipe(.Down)
+        delegate?.onGameBoardBeginSwipe(.down)
         for col in 0..<numCols {
-            for row in (0...numRows - 2).reverse() {
+            for row in (0...numRows - 2).reversed() {
                 let from = Position(x: row, y: col)
                 let to = moveDownCellFrom(from)
                 if from.x != to.x {
@@ -92,12 +92,12 @@ struct GameBoard {
             }
         }
 
-        delegate?.onGameBoardEndSwipe(.Down)
+        delegate?.onGameBoardEndSwipe(.down)
     }
     
     mutating func swipeUp() {
         prepareForSwipe()
-        delegate?.onGameBoardBeginSwipe(.Up)
+        delegate?.onGameBoardBeginSwipe(.up)
         for col in 0..<numCols {
             for row in 1..<numRows {
                 let from = Position(x: row, y: col)
@@ -108,13 +108,13 @@ struct GameBoard {
             }
         }
         
-        delegate?.onGameBoardEndSwipe(.Down)
+        delegate?.onGameBoardEndSwipe(.down)
         
     }
     
     mutating func swipeLeft() {
         prepareForSwipe()
-        delegate?.onGameBoardBeginSwipe(.Left)
+        delegate?.onGameBoardBeginSwipe(.left)
         for row in 0..<numRows {
             for col in 1..<numCols {
                 let from = Position(x: row, y: col)
@@ -124,14 +124,14 @@ struct GameBoard {
                 }
             }
         }
-        delegate?.onGameBoardEndSwipe(.Left)
+        delegate?.onGameBoardEndSwipe(.left)
     }
     
     mutating func swipeRight() {
         prepareForSwipe()
-        delegate?.onGameBoardBeginSwipe(.Right)
+        delegate?.onGameBoardBeginSwipe(.right)
         for row in 0..<numRows {
-            for col in (0...(numCols - 2)).reverse() {
+            for col in (0...(numCols - 2)).reversed() {
                 let from = Position(x: row, y: col)
                 let to = moveRightCellFrom(from)
                 if from.y != to.y {
@@ -140,7 +140,7 @@ struct GameBoard {
             }
         }
         
-        delegate?.onGameBoardEndSwipe(.Right)
+        delegate?.onGameBoardEndSwipe(.right)
     }
     
     func endSwipe() {
@@ -148,7 +148,7 @@ struct GameBoard {
             for col in 0..<numCols {
                 let position = Position(x: row, y: col)
                 if let cell = self[position] {
-                    if cell.status == .Merged {
+                    if cell.status == .merged {
                         delegate?.onGameBoardCellMerged(cell, atPosition: position)
                     }
                 }
@@ -175,7 +175,7 @@ struct GameBoard {
         let pos = empty[index]
         var newCell = Cell<Int>()
         newCell.position = pos
-        newCell.status = .NoChanges
+        newCell.status = .noChanges
         self[pos] = newCell
         
         delegate?.onGameBoardCreateNewCell(newCell, atPostion: pos)
@@ -183,15 +183,15 @@ struct GameBoard {
         return true
     }
     
-    func getForegroundColorFor(row row: Int, col: Int) -> UIColor {
+    func getForegroundColorFor(row: Int, col: Int) -> UIColor {
         if let c = self[row, col] {
             return c.foregroundColor
         }
         
-        return UIColor.grayColor()
+        return UIColor.gray
     }
     
-    func getBackgroundColorFor(row row: Int, col: Int) -> UIColor {
+    func getBackgroundColorFor(row: Int, col: Int) -> UIColor {
         if let c = self[row, col] {
             return c.backgroundColor
         }
@@ -199,7 +199,7 @@ struct GameBoard {
         return UIColor(red: 204.0/255.0, green: 192.0/255.0, blue: 178.0/255.0, alpha: 1.0)
     }
     
-    func getValueFor(row row: Int, col: Int) -> Int? {
+    func getValueFor(row: Int, col: Int) -> Int? {
         if let c = self[row, col] {
             return c.value
         }
@@ -209,25 +209,25 @@ struct GameBoard {
     
     // MARK: Private methods
     
-    private func positionOutOfBound(position: Position) -> Bool {
+    fileprivate func positionOutOfBound(_ position: Position) -> Bool {
         return (position.x < 0 || position.x >= numRows || position.y < 0 || position.y >= numCols)
     }
     
-    private mutating func moveCell(from from: Position, to: Position) -> Bool {
+    fileprivate mutating func moveCell(from: Position, to: Position) -> Bool {
         
         if positionOutOfBound(to) { return false }
         
         var fromCell = self.cellAtPosition(from)!
         
         // Do not move merged cell
-        if fromCell.status == .Merged { return false }
+        if fromCell.status == .merged { return false }
         
         if var toCell = self.cellAtPosition(to) {
-            if toCell.value == fromCell.value && toCell.status == .NoChanges {
+            if toCell.value == fromCell.value && toCell.status == .noChanges {
                 fromCell.merge(toCell)
-                fromCell.status = .Merged
+                fromCell.status = .merged
                 
-                toCell.status = .Disappeared
+                toCell.status = .disappeared
                 setMergedCell(toCell, at: toCell.position)
             }
             else {
@@ -241,7 +241,7 @@ struct GameBoard {
         return true
     }
     
-    private mutating func moveDownCellFrom(position: Position) -> Position {
+    fileprivate mutating func moveDownCellFrom(_ position: Position) -> Position {
         guard self[position] != nil else { return position }
         
         // do not move last row
@@ -257,7 +257,7 @@ struct GameBoard {
         return from
     }
     
-    private mutating func moveUpCellFrom(position: Position) -> Position {
+    fileprivate mutating func moveUpCellFrom(_ position: Position) -> Position {
         // do not move empty cell
         guard self[position] != nil else { return position}
         
@@ -274,7 +274,7 @@ struct GameBoard {
         return from
     }
     
-    private mutating func moveLeftCellFrom(position: Position) -> Position {
+    fileprivate mutating func moveLeftCellFrom(_ position: Position) -> Position {
         guard self[position] != nil else {return position}
         
         // do not move first col
@@ -290,7 +290,7 @@ struct GameBoard {
         return from
     }
     
-    private mutating func moveRightCellFrom(position: Position) -> Position {
+    fileprivate mutating func moveRightCellFrom(_ position: Position) -> Position {
         guard self[position] != nil else {return position}
         
         guard position.y < numCols - 1 else { return position}
@@ -305,23 +305,23 @@ struct GameBoard {
         return from
     }
     
-    private mutating func prepareForSwipe() {
+    fileprivate mutating func prepareForSwipe() {
         resetCells()
         cleanMergedCells()
     }
     
-    private mutating func cleanMergedCells() {
+    fileprivate mutating func cleanMergedCells() {
         for i in 0..<mergedCells.count {
             mergedCells[i] = nil
         }
     }
     
-    private mutating func resetCells() {
+    fileprivate mutating func resetCells() {
         for row in 0..<numRows {
             for col in 0..<numCols {
                 if var cell = self[row, col] {
                     cell.position = Position(x: row, y: col)
-                    cell.status = .NoChanges
+                    cell.status = .noChanges
                     self[row, col] = cell
                 }
             }

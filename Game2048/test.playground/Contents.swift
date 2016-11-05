@@ -1,4 +1,3 @@
-//: Playground - noun: a place where people can play
 
 import UIKit
 
@@ -45,7 +44,7 @@ print(dict)
 
 let v = dict[Position(x: 1, y: 1)]
 dict[Position(x: 2, y: 2)] = v
-dict.removeValueForKey(Position(x: 1, y: 1))
+dict.removeValue(forKey: Position(x: 1, y: 1))
 
 for (key, value) in dict {
     print("\(key) : \(value.value)")

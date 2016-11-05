@@ -17,11 +17,11 @@ struct Position: Hashable, Equatable {
         self.y = y
     }
     
-    func forwardX(step step: Int) -> Position {
+    func forwardX(step: Int) -> Position {
         return Position(x: self.x + step, y: self.y)
     }
     
-    func forwardY(step step: Int) -> Position {
+    func forwardY(step: Int) -> Position {
         return Position(x: self.x, y: self.y + step)
     }
     

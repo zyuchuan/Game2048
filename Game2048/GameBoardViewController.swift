@@ -23,22 +23,22 @@ class GameBoardViewController: UIViewController, GameBoardDelegate, GameBoardVie
         gameboardView.delegate = self
         self.view.addSubview(gameboardView)
         
-        gameBoard.randomCreateNewCell()
+        let _ = gameBoard.randomCreateNewCell()
         
         let swipeDownRecognizer: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(GameBoardViewController.handleSwipe(_:)))
-        swipeDownRecognizer.direction = .Down
+        swipeDownRecognizer.direction = .down
         self.gameboardView.addGestureRecognizer(swipeDownRecognizer)
         
         let swipeUpRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(GameBoardViewController.handleSwipe(_:)))
-        swipeUpRecognizer.direction = .Up
+        swipeUpRecognizer.direction = .up
         self.gameboardView.addGestureRecognizer(swipeUpRecognizer)
 
         let swipeLeftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(GameBoardViewController.handleSwipe(_:)))
-        swipeLeftRecognizer.direction = .Left
+        swipeLeftRecognizer.direction = .left
         self.gameboardView.addGestureRecognizer(swipeLeftRecognizer)
         
         let swipeRightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(GameBoardViewController.handleSwipe(_:)))
-        swipeRightRecognizer.direction = .Right
+        swipeRightRecognizer.direction = .right
         self.gameboardView.addGestureRecognizer(swipeRightRecognizer)
         
     }
@@ -47,21 +47,21 @@ class GameBoardViewController: UIViewController, GameBoardDelegate, GameBoardVie
         gameBoard.clean()
         gameboardView.clean()
         
-        gameBoard.randomCreateNewCell()
+        let _ = gameBoard.randomCreateNewCell()
     }
     
-    func handleSwipe(recognizer: UISwipeGestureRecognizer) {
+    func handleSwipe(_ recognizer: UISwipeGestureRecognizer) {
         switch recognizer.direction {
-        case UISwipeGestureRecognizerDirection.Up:
+        case UISwipeGestureRecognizerDirection.up:
             gameBoard.swipeUp()
             
-        case UISwipeGestureRecognizerDirection.Down:
+        case UISwipeGestureRecognizerDirection.down:
             gameBoard.swipeDown()
             
-        case UISwipeGestureRecognizerDirection.Left:
+        case UISwipeGestureRecognizerDirection.left:
             gameBoard.swipeLeft()
             
-        case UISwipeGestureRecognizerDirection.Right:
+        case UISwipeGestureRecognizerDirection.right:
             gameBoard.swipeRight()
             
         default:
@@ -104,29 +104,29 @@ class GameBoardViewController: UIViewController, GameBoardDelegate, GameBoardVie
     
     func onGameBoardViewDidSwipe() {
         gameBoard.endSwipe()
-        gameBoard.randomCreateNewCell()
+        let _ = gameBoard.randomCreateNewCell()
     }
     
     
     // MARK: GameBoardDelegate methods
     
-    func onGameBoardCreateNewCell(cell: Cell<Int>, atPostion position: Position) {
+    func onGameBoardCreateNewCell(_ cell: Cell<Int>, atPostion position: Position) {
         gameboardView.createNewCellViewForCell(cell, atPosition: position)
     }
     
-    func onGameBoardBeginSwipe(direction: SwipeDirection) {
+    func onGameBoardBeginSwipe(_ direction: SwipeDirection) {
         gameboardView.beginSwipe(direction)
     }
     
-    func onGameBoardEndSwipe(direction: SwipeDirection) {
+    func onGameBoardEndSwipe(_ direction: SwipeDirection) {
         gameboardView.endSwipe(direction)
     }
     
-    func onGameBoardCellMove(cell: Cell<Int>, from: Position, to: Position) {
+    func onGameBoardCellMove(_ cell: Cell<Int>, from: Position, to: Position) {
         gameboardView.moveCellViewForCell(cell, from: from, to: to)
     }
     
-    func onGameBoardCellMerged(cell: Cell<Int>, atPosition position: Position) {
+    func onGameBoardCellMerged(_ cell: Cell<Int>, atPosition position: Position) {
         gameboardView.updateCellViewForCell(cell, atPosition: position)
     }
     

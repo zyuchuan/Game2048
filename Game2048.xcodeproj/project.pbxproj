@@ -26,7 +26,6 @@
 		041FAE481D0289A20050EAA2 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		041FAE4A1D0331B80050EAA2 /* test.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = test.playground; sourceTree = "<group>"; };
 		04218AA11CF99FB200AA685A /* GameBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoardViewController.swift; sourceTree = "<group>"; };
-		043FC9921CF18286000C5695 /* 2048.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = 2048.playground; path = ../../../Workspaces/XCode/2048.playground; sourceTree = "<group>"; };
 		043FC9931CF182A7000C5695 /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		043FC9951CF182DF000C5695 /* GameBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoard.swift; sourceTree = "<group>"; };
 		04A580A51CFB1D0B0004B125 /* CellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CellView.xib; sourceTree = "<group>"; };
@@ -105,13 +104,12 @@
 				043FC9971CF1834A000C5695 /* Model */,
 				043FC9981CF18360000C5695 /* View */,
 				04218AA01CF99F8100AA685A /* Controller */,
-				043FC9921CF18286000C5695 /* 2048.playground */,
 				04BD53C01CF0411600E6DE3A /* AppDelegate.swift */,
-				041FAE4A1D0331B80050EAA2 /* test.playground */,
 				04BD53C41CF0411600E6DE3A /* Main.storyboard */,
 				04BD53C71CF0411600E6DE3A /* Assets.xcassets */,
 				04BD53C91CF0411600E6DE3A /* LaunchScreen.storyboard */,
 				04BD53CC1CF0411600E6DE3A /* Info.plist */,
+				041FAE4A1D0331B80050EAA2 /* test.playground */,
 			);
 			path = Game2048;
 			sourceTree = "<group>";
@@ -143,12 +141,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Jack Zou";
 				TargetAttributes = {
 					04BD53BC1CF0411600E6DE3A = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 5597W4KY69;
+						LastSwiftMigration = 0810;
 					};
 				};
 			};
@@ -237,8 +236,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -282,8 +283,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -302,6 +305,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -315,6 +319,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jackzou.Game2048;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -327,6 +332,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jackzou.Game2048;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

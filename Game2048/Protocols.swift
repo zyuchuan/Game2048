@@ -9,19 +9,19 @@
 import UIKit
 
 enum SwipeDirection {
-    case Up
-    case Down
-    case Left
-    case Right
+    case up
+    case down
+    case left
+    case right
 }
 
 protocol GameBoardDelegate {
     
-    func onGameBoardCreateNewCell(cell: Cell<Int>, atPostion position: Position)
-    func onGameBoardBeginSwipe(direction: SwipeDirection)
-    func onGameBoardEndSwipe(direction: SwipeDirection)
-    func onGameBoardCellMove(cell: Cell<Int>, from: Position, to: Position)
-    func onGameBoardCellMerged(cell: Cell<Int>, atPosition position: Position)
+    func onGameBoardCreateNewCell(_ cell: Cell<Int>, atPostion position: Position)
+    func onGameBoardBeginSwipe(_ direction: SwipeDirection)
+    func onGameBoardEndSwipe(_ direction: SwipeDirection)
+    func onGameBoardCellMove(_ cell: Cell<Int>, from: Position, to: Position)
+    func onGameBoardCellMerged(_ cell: Cell<Int>, atPosition position: Position)
     
 }
 

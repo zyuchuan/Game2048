@@ -9,7 +9,7 @@
 import UIKit
 
 protocol Mergeable {
-    mutating func merge(other: Self)
+    mutating func merge(_ other: Self)
 }
 
 protocol Creatable {
@@ -27,7 +27,7 @@ protocol Presentable {
 }
 
 extension Int: Mergeable, Creatable, Presentable {
-    mutating func merge(other: Int) {
+    mutating func merge(_ other: Int) {
         self += other
     }
     
@@ -42,27 +42,27 @@ extension Int: Mergeable, Creatable, Presentable {
         case 32:
             fallthrough
         case 1024:
-            return UIColor.redColor()
+            return UIColor.red
             
         case 4:
             fallthrough
         case 64:
             fallthrough
         case 2048:
-            return UIColor.yellowColor()
+            return UIColor.yellow
             
         case 8:
             fallthrough
         case 128:
-            return UIColor.orangeColor()
+            return UIColor.orange
             
         case 16:
             fallthrough
         case 256:
-            return UIColor.purpleColor()
+            return UIColor.purple
             
         default:
-            return UIColor.grayColor()
+            return UIColor.gray
         }
     }
     
@@ -93,26 +93,26 @@ extension Int: Mergeable, Creatable, Presentable {
             return UIColor(red: 245.0/255.0, green: 149.0/255.0, blue: 99.0/255.0, alpha: 1.0)
             
         default:
-            return UIColor.grayColor()
+            return UIColor.gray
         }
     }
 }
 
 enum CellStatus {
-    case NoChanges
-    case Merged
-    case Disappeared
+    case noChanges
+    case merged
+    case disappeared
 }
 
-struct Cell<T where T: Mergeable, T: Comparable, T: Creatable, T: Presentable>: Mergeable, Presentable {
+struct Cell<T>: Mergeable, Presentable where T: Mergeable, T: Comparable, T: Creatable, T: Presentable {
     var value: T = T.create()
     var position: Position = Position.OutOfRange
-    var status: CellStatus = .NoChanges
+    var status: CellStatus = .noChanges
     
     // MARK: Mergeable protocol
-    mutating func merge(other: Cell) {
+    mutating func merge(_ other: Cell) {
         value.merge(other.value)
-        status = .Merged
+        status = .merged
     }
     
     // MARK: Presentable protocol
